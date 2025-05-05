@@ -1,0 +1,200 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #555;
+}
+
+.form-section, .ranking-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Style for the container wrapping the form fields */
+.form-fields-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    gap: 15px; /* Space between form field groups */
+    margin-bottom: 20px;
+}
+
+/* Style for individual field groups (label + input/select) */
+.form-fields-container > div {
+    flex: 1 1 200px; /* Allow fields to grow and shrink, with a base width */
+    display: flex; /* Use flexbox for label and input */
+    flex-direction: column; /* Stack label above input */
+}
+
+/* Specific styling for the Equipe field */
+.form-fields-container > div:has(#equipe) {
+    flex: 0 0 100px; /* Fixed width */
+    min-width: 80px;
+}
+
+
+/* Specific styling for the Posto/Graduação field to make it narrower */
+/* Target the div that contains the select with id="posto-graduacao" */
+.form-fields-container > div:has(#posto-graduacao) {
+    flex: 0 0 120px; /* Don't grow or shrink, base width 120px */
+    min-width: 100px; /* Ensure it doesn't get too small */
+}
+
+/* Specific styling for the RE field to make it narrower */
+/* Target the div that contains the input with id="re" */
+.form-fields-container > div:has(#re) {
+    flex: 0 0 100px; /* Don't grow or shrink, base width 100px */
+    min-width: 80px; /* Ensure it doesn't get too small */
+}
+
+
+.form-fields-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent label text from wrapping */
+}
+
+.form-fields-container input[type="text"],
+.form-fields-container input[type="number"],
+.form-fields-container input[type="password"],
+.form-fields-container input[type="date"],
+.form-fields-container select {
+    width: 100%; /* Make input/select fill the container width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Adjust width for smaller inputs like RE */
+.form-fields-container input[type="number"] {
+     /* Adjust as needed, currently using flex-basis from parent div */
+}
+
+.form-buttons {
+    text-align: center; /* Center the buttons */
+    margin-top: 20px;
+}
+
+button {
+    display: inline-block;
+    background: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+button:hover {
+    background: #4cae4c;
+}
+
+button#cancel-edit {
+    background: #f0ad4e;
+}
+button#cancel-edit:hover {
+    background: #ec971f;
+}
+
+button.delete-btn {
+    background: #d9534f;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+button.delete-btn:hover {
+     background: #c9302c;
+}
+
+button.edit-btn {
+    background: #0275d8;
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+button.edit-btn:hover {
+     background: #025aa5;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #e9e9e9;
+}
+
+/* Style for the search container */
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between label and input */
+}
+
+.search-container label {
+    font-weight: bold;
+}
+
+.search-container input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1; /* Allow input to take available space */
+    max-width: 200px; /* Limit max width */
+}
+
+/* Style for the table body wrapper to enable scrolling */
+#ranking-table-wrapper {
+    max-height: 400px; /* Approximate height for 10-15 rows */
+    overflow-y: auto; /* Add vertical scrollbar when content exceeds max-height */
+    /* Ensure the wrapper takes the full width and the table inside expands */
+    width: 100%;
+}
+
+/* Reset table width inside the wrapper */
+#ranking-table-wrapper table {
+    margin-top: 0; /* Remove top margin as it's now inside the wrapper */
+    width: 100%; /* Ensure table inside takes full width of wrapper */
+}
+
+/* Fix table headers staying at top while body scrolls */
+/* Note: This is a common challenge with pure CSS. A JS solution or a different table structure might be needed for sticky headers. For now, headers will scroll with the body. */
