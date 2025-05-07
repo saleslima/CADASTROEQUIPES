@@ -39,30 +39,19 @@ h1, h2 {
 
 /* Style for individual field groups (label + input/select) */
 .form-fields-container > div {
-    flex: 1 1 200px; /* Allow fields to grow and shrink, with a base width */
+    flex: 1 1 180px; /* Allow fields to grow and shrink, with a base width for wrapping */
     display: flex; /* Use flexbox for label and input */
     flex-direction: column; /* Stack label above input */
 }
 
-/* Specific styling for the Equipe field */
-.form-fields-container > div:has(#equipe) {
-    flex: 0 0 100px; /* Fixed width */
-    min-width: 80px;
-}
-
-
-/* Specific styling for the Posto/Graduação field to make it narrower */
-/* Target the div that contains the select with id="posto-graduacao" */
-.form-fields-container > div:has(#posto-graduacao) {
-    flex: 0 0 120px; /* Don't grow or shrink, base width 120px */
-    min-width: 100px; /* Ensure it doesn't get too small */
-}
-
-/* Specific styling for the RE field to make it narrower */
-/* Target the div that contains the input with id="re" */
+/* Specific styling adjustments for narrower fields */
+/* Instead of fixed flex-basis, let them shrink more if needed but prefer less space */
+.form-fields-container > div:has(#equipe),
+.form-fields-container > div:has(#posto-graduacao),
 .form-fields-container > div:has(#re) {
-    flex: 0 0 100px; /* Don't grow or shrink, base width 100px */
-    min-width: 80px; /* Ensure it doesn't get too small */
+     /* Allow them to be slightly narrower than other fields if space is limited */
+     flex-basis: 120px; /* Suggest a smaller base width */
+     min-width: 80px; /* But don't let them get too small */
 }
 
 
@@ -85,11 +74,6 @@ h1, h2 {
     box-sizing: border-box;
 }
 
-/* Adjust width for smaller inputs like RE */
-.form-fields-container input[type="number"] {
-     /* Adjust as needed, currently using flex-basis from parent div */
-}
-
 .form-buttons {
     text-align: center; /* Center the buttons */
     margin-top: 20px;
@@ -105,6 +89,7 @@ button {
     cursor: pointer;
     font-size: 16px;
     margin-right: 10px;
+    margin-bottom: 10px; /* Add some bottom margin for stacking on small screens */
 }
 
 button:hover {
@@ -140,13 +125,15 @@ button.edit-btn:hover {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    /* margin-top: 20px; Removed margin as it's inside wrapper */
+    table-layout: auto; /* Allow column widths to adjust */
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
+    word-break: break-word; /* Allow long text to break */
 }
 
 th {
@@ -168,10 +155,12 @@ tbody tr:hover {
     display: flex;
     align-items: center;
     gap: 10px; /* Space between label and input */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
 .search-container label {
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .search-container input[type="number"] {
@@ -179,22 +168,84 @@ tbody tr:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
     flex-grow: 1; /* Allow input to take available space */
-    max-width: 200px; /* Limit max width */
+    min-width: 100px; /* Ensure it doesn't get too small */
+    max-width: 250px; /* Limit max width */
 }
 
 /* Style for the table body wrapper to enable scrolling */
 #ranking-table-wrapper {
     max-height: 400px; /* Approximate height for 10-15 rows */
     overflow-y: auto; /* Add vertical scrollbar when content exceeds max-height */
-    /* Ensure the wrapper takes the full width and the table inside expands */
-    width: 100%;
+    overflow-x: auto; /* Add horizontal scrollbar if table content is too wide */
+    margin-top: 20px; /* Add some space above the table */
 }
 
-/* Reset table width inside the wrapper */
-#ranking-table-wrapper table {
-    margin-top: 0; /* Remove top margin as it's now inside the wrapper */
-    width: 100%; /* Ensure table inside takes full width of wrapper */
-}
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    body {
+        padding: 10px; /* Reduce padding on smaller screens */
+    }
 
-/* Fix table headers staying at top while body scrolls */
-/* Note: This is a common challenge with pure CSS. A JS solution or a different table structure might be needed for sticky headers. For now, headers will scroll with the body. */
+    .container {
+        padding: 15px; /* Reduce padding inside container */
+        margin: 10px auto; /* Adjust margins */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Slightly smaller heading */
+    }
+
+    h2 {
+         font-size: 1.4em; /* Slightly smaller subheading */
+    }
+
+     /* Make form fields stack vertically on smaller screens */
+    .form-fields-container > div {
+        flex: 1 1 100%; /* Make each field take full width */
+        min-width: auto; /* Remove min-width constraint */
+    }
+
+     /* Adjust specific field width suggestions */
+    .form-fields-container > div:has(#equipe),
+    .form-fields-container > div:has(#posto-graduacao),
+    .form-fields-container > div:has(#re) {
+         flex-basis: auto; /* Remove flex-basis suggestion */
+    }
+
+     .form-buttons {
+        display: flex; /* Use flexbox for buttons */
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center; /* Center buttons */
+     }
+
+    button {
+        width: 100%; /* Make buttons full width */
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 10px; /* Ensure space between stacked buttons */
+        max-width: 250px; /* Optional: limit max width for buttons */
+    }
+
+     .search-container {
+        flex-direction: column; /* Stack search label and input */
+        align-items: flex-start; /* Align search items to the start */
+     }
+
+     .search-container input[type="number"] {
+        width: 100%; /* Make search input full width */
+        max-width: none; /* Remove max width limit */
+     }
+
+     /* Adjust table header/data padding on smaller screens if needed */
+    th, td {
+        padding: 8px; /* Slightly less padding */
+        font-size: 0.9em; /* Slightly smaller text */
+    }
+
+    /* Consider hiding less important columns on very small screens if horizontal scroll isn't preferred */
+    /* Example: hide Data Promoção on very small screens (< 480px) */
+    /* @media (max-width: 480px) {
+        th:nth-child(6), td:nth-child(6) {
+            display: none;
+        }
+    } */
+}
